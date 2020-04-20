@@ -9,6 +9,18 @@ app.use(express.json());
 app.use(cors());
 
 const repositories = [];
+let cont = 0;
+
+function logRequests(req, res, next) {
+  const {url, method} = req;
+  const logLabel = `[${method.toUpperCase()} ${url}] ⛏ `
+  console.time(logLabel);
+  next();
+  console.timeEnd(logLabel)
+  
+}
+
+app.use(logRequests);
 
 app.get("/repositories", (request, response) => {
     response.json(repositories);
